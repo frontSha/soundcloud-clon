@@ -1,3 +1,87 @@
 @import "tailwindcss";
 
+/* @tailwind theme */
+@theme {
+  --color-*: initial;
+  --color-base: #121212; /*Opacity: hover - 0.4 / loading - 0.6*/
+  --color-base-light: #fff; /*Opacity: overlay - 0.4 / loading - 0.6 / border - 0.15*/
+  --color-base-subtle: #f3f3f3;
+  --color-accent: #f50; /*Hover: 0.4 op*/
+  --color-accent-interactive: #699fff; /*Active: 0.6 op*/
+  --color-accent-deep: #044dd2;
+  --color-neutral-light: #999; /*Disabled: 0.6 op*/
+  --color-neutral-medium: #666;
+  --color-neutral-dark: #303030;
+  --color-status-error: #d61348;
+  --color-status-error-surface: #ffebee;
+  --color-status-success: #008850;
+  --color-status-success-surface: #e6f7ee;
+  --color-status-warning-surface: #fff8e1;
+  --color-transparent: transparent;
 
+  /* Gradient Placeholder Colors */
+  --color-mauve: #846170;
+  --color-mist: #70929c;
+  --color-coral: #e6846e;
+  
+  /* Spacing base */
+  --spacing: 2px;
+
+  /* Typography */
+  --font-size-root: 0.875em;
+
+  /* Display Styles */
+  --text-display1: 4.285714285714286rem;
+  --text-display1--line-height: 2.5714285714285716rem;
+
+  --text-display2: 2.857142857142857rem;
+  --text-display2--line-height: 2.5714285714285716rem;
+
+  --text-display3: 2.2857142857142856rem;
+  --text-display3--line-height: 2.5714285714285716rem;
+
+  /* Headings */
+  --text-heading1: 2rem;
+  --text-heading1--line-height: 2.5714285714285716rem;
+
+  --text-heading2: 1.5714285714285714rem;
+  --text-heading2--line-height: 2rem;
+
+  --text-heading3: 1.2142857142857142rem;
+  --text-heading3--line-height: 1.7142857142857142rem;
+
+  --text-heading4: 1rem;
+  --text-heading4--line-height: 1.4285714285714286rem;
+
+  --text-heading5: 0.8571428571428571rem;
+  --text-heading5--line-height: 1.1428571428571428rem;
+
+  --text-heading6: 0.7142857142857143rem;
+  --text-heading6--line-height: 1.1428571428571428rem;
+
+  /* Body */
+  --text-body: 1rem;
+  --text-body--line-height: 1.4285714285714286rem;
+
+  --text-body1: 1.2142857142857142rem;
+  --text-body1--line-height: 1.7142857142857142rem;
+
+  /* Captions & Micro */
+  --text-captions: 0.8571428571428571rem;
+  --text-captions--line-height: 1.1428571428571428rem;
+
+  --text-micro: 0.7142857142857143rem;
+  --text-micro--line-height: 1.1428571428571428rem;
+}
+
+html {
+  font-size: var(--font-size-root);
+}
+
+body {
+  background-color: var(--color-base);
+  color: var(--color-base-light);
+  font-family: var(--font-inter), sans-serif;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
