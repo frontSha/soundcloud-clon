@@ -72,6 +72,12 @@
 
   --text-micro: 0.7142857142857143rem;
   --text-micro--line-height: 1.1428571428571428rem;
+
+  /* Breakpoints */
+  --breakpoint-*: initial;
+  --breakpoint-md: 959px;
+  --breakpoint-lg: 1078px;
+  --breakpoint-xl: 1239px;
 }
 
 html {

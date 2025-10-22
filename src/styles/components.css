@@ -1,0 +1,69 @@
+@import "./globals.css";
+@tailwind utilities;
+
+/* Buttons */
+.btn {
+  @apply py-3 px-6 rounded-sm border-none whitespace-nowrap cursor-pointer active:opacity-40;
+}
+
+.btn-xxl {
+  @apply h-32 w-32 p-6;
+}
+
+.btn-xl {
+  @apply h-20 w-20 p-4 text-heading2;
+}
+
+.btn-lg {
+  @apply text-heading3 font-semibold min-h-16 max-md:min-h-23 max-md:py-7 max-md:px-8 max-md:text-body;
+}
+
+.btn-md {
+  @apply text-heading4 font-semibold min-h-16 max-md:min-h-20 max-md:py-5 max-md:px-8;
+}
+
+.btn-sm {
+  @apply text-captions font-normal min-h-12 min-w-12;
+}
+
+.btn-cta {
+  @apply py-6.5 px-11.5 h-23 min-w-[200px] text-[1.286rem];
+}
+
+/* Full width button - mobile */
+.btn-full {
+  @apply max-md:w-full;
+}
+
+/* sólo cuando [data-theme="light"] sea aplicado */
+@custom-variant theme-light (&:where([data-theme="light"] *));
+
+/* dark mode */
+.btn-primary {
+  @apply bg-base-light text-base fill-base transition-all hover:text-base/40 hover:fill-base/40 theme-light:bg-base theme-light:text-base-light theme-light:fill-current theme-light:hover:text-base-light/40 theme-light:hover:fill-base-light/40;
+}
+
+.btn-secondary {
+  @apply bg-neutral-dark text-base-light fill-base-light transition-all hover:text-base-light/40 hover:fill-base-light/40 theme-light:bg-base-subtle theme-light:text-base theme-light:fill-base theme-light:hover:text-base/40 theme-light:hover:fill-base/40;
+}
+
+.btn-tertiary {
+  @apply bg-base text-base-light transition-all hover:text-base-light/40 theme-light:bg-base-light theme-light:text-base theme-light:hover:text-base/40;
+}
+
+.btn-transparent {
+  @apply bg-transparent text-base-light px-1 py-0;
+}
+
+/* Icon buttons */
+.icon-rounded {
+  @apply rounded-full p-4;
+}
+
+.play-control {
+  @apply px-4 rounded-full active:opacity-100 max-md:px-3;
+}
+
+.skip-controls {
+  @apply p-0 active:opacity-100 max-md:rounded-full max-md:p-3;
+}
