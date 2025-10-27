@@ -7,7 +7,7 @@
 }
 
 .btn-xxl {
-  @apply h-32 w-32 p-6;
+  @apply h-23 w-23 p-6 lg:h-23 lg:w-23 xl:h-32 xl:w-32 lg:text-heading1;
 }
 
 .btn-xl {
@@ -23,7 +23,7 @@
 }
 
 .btn-sm {
-  @apply text-captions font-normal min-h-12 min-w-12;
+  @apply text-captions font-normal min-h-12 min-w-12 variant-ghost:max-lg:py-0 variant-ghost:max-lg:px-3;
 }
 
 .btn-cta {
@@ -37,6 +37,7 @@
 
 /* sólo cuando [data-theme="light"] sea aplicado */
 @custom-variant theme-light (&:where([data-theme="light"] *));
+@custom-variant variant-ghost (&:where([data-variant="ghost"] *)); /* aplica bg-transparent a cualquiera de los botones */
 
 /* dark mode */
 .btn-primary {
@@ -44,7 +45,7 @@
 }
 
 .btn-secondary {
-  @apply bg-neutral-dark text-base-light fill-base-light transition-all hover:text-base-light/40 hover:fill-base-light/40 theme-light:bg-base-subtle theme-light:text-base theme-light:fill-base theme-light:hover:text-base/40 theme-light:hover:fill-base/40;
+  @apply bg-neutral-dark text-base-light fill-base-light transition-all hover:text-base-light/40 hover:fill-base-light/40 theme-light:bg-base-subtle theme-light:text-base theme-light:fill-base theme-light:hover:text-base/40 theme-light:hover:fill-base/40 variant-ghost:bg-transparent;
 }
 
 .btn-tertiary {
@@ -61,7 +62,7 @@
 }
 
 .play-control {
-  @apply px-4 rounded-full active:opacity-100 max-md:px-3;
+  @apply p-4 rounded-full active:opacity-100 max-md:p-3;
 }
 
 .skip-controls {

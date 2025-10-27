@@ -1,6 +1,6 @@
 export default function Tooltip({children, text}) {
   return (
-    <div className="relative w-fit">
+    <div className="relative w-fit inline-block">
       <div className="peer">{children}</div>
 
       <span
