@@ -19,13 +19,11 @@ export default function Card({
   const inSidebar = variant === "sidebar";
 
   return (
-    <div className={!inSidebar ? 'pr-16 w-fit group' : 'w-fit group'}>
+    <div className="w-fit group">
       <div
         role="card"
         className={`flex ${
-          !inSidebar
-            ? 'flex-col mb-24 w-[94px] xl:w-[160px] lg:w-[121px]'
-            : 'w-full px-8 py-4'
+          !inSidebar ? 'flex-col md:mb-24' : 'w-full px-8 py-4'
         }`}
       >
         {/* card artwork */}
@@ -34,8 +32,20 @@ export default function Card({
             inSidebar ? 'mr-8 w-24 h-24' : ''
           }`}
         >
+          <a href={cardLink} className="artwork-link cursor-pointer">
+            <div className="artwork-container max-md:w-80 max-md:h-80 rounded-[3%] overflow-clip max-md:outline-1 max-md:outline-base-light/15">
+              <img
+                className={`max-w-full aspect-square ${
+                  !inSidebar ? 'w-full h-full' : 'w-24 h-24'
+                }`}
+                src={artworkURL}
+                alt={`Cover ${heading}`}
+              />
+            </div>
+          </a>
+
           <div
-            className={`overlay absolute top-0 left-0 w-full h-full z-10 rounded-[3%] opacity-0 ${
+            className={`overlay absolute top-0 left-0 w-full h-full z-5 rounded-[3%] opacity-0 ${
               !inSidebar
                 ? 'bg-base-light/40 hover:opacity-100'
                 : 'group-hover:opacity-100'
@@ -56,17 +66,6 @@ export default function Card({
               )}
             </div>
           </div>
-          <a href={cardLink} className="artwork-link cursor-pointer">
-            <div className="artwork-container">
-              <img
-                className={`max-w-full rounded-[3%] aspect-square ${
-                  !inSidebar ? 'w-full h-full' : 'w-24 h-24'
-                }`}
-                src={artworkURL}
-                alt={`Cover ${heading}`}
-              />
-            </div>
-          </a>
         </div>
 
         {/* card content */}
@@ -96,7 +95,7 @@ export default function Card({
                 (description && <span>{description}</span>)}
               {releaseDate && (
                 <span>
-                  <span>·</span>
+                  <span className="mx-2">·</span>
                   <span>{releaseDate}</span>
                 </span>
               )}

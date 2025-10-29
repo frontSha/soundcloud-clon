@@ -9,7 +9,7 @@ import { PiShuffleBold } from 'react-icons/pi';
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
 
-export function IconButton({ icon, text, size, variant, ariaLabel, onClick, customClasses }) {
+export function IconButton({ icon, text, size, variant, ariaLabel, onClick, customClasses, isDisabled }) {
   return (
     <button
       className={`btn 
@@ -21,9 +21,10 @@ export function IconButton({ icon, text, size, variant, ariaLabel, onClick, cust
             : 'btn-secondary'
         } ${
         size === 'medium' ? 'btn-md' : size === 'large' ? 'btn-lg' : 'btn-sm'
-      } ${customClasses || ''} active:opacity-70`}
+      } ${customClasses || ''} disabled:hidden`}
       aria-label={ariaLabel}
       onClick={onClick}
+      disabled={isDisabled}
       type="button"
     >
       <span
@@ -197,25 +198,27 @@ export function VolumeControl({buttonSize, variant, onClick, on}) {
 
 // Slider buttons <>
 
-export function ArrowLeft({buttonSize, onClick }) {
+export function ArrowLeft({buttonSize, onClick, isDisabled }) {
   return (
     <IconButton
       size={buttonSize}
       ariaLabel={'Deslizar izquierda'}
       onClick={onClick}
       customClasses={'icon-rounded'}
+      isDisabled={isDisabled}
       icon={<MdArrowBackIosNew size={16} />}
     />
   );
 }
 
-export function ArrowRight({buttonSize, onClick }) {
+export function ArrowRight({buttonSize, onClick, isDisabled }) {
   return (
     <IconButton
       size={buttonSize}
       ariaLabel={'Deslizar derecha'}
       onClick={onClick}
       customClasses={'icon-rounded'}
+      isDisabled={isDisabled}
       icon={<MdArrowForwardIos size={16} />}
     />
   );

@@ -68,3 +68,8 @@
 .skip-controls {
   @apply p-0 active:opacity-100 max-md:rounded-full max-md:p-3;
 }
+
+/* Slider */
+.slider-panels {
+  @apply md:w-[23%] md:grow-0 md:shrink-0 md:basis-[23%] flex-1 w-full;
+}
