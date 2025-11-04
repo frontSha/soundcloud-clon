@@ -9,6 +9,7 @@ export default function Input({
   inputName,
   inputValue,
   passwordInvalid = false,
+  placeholder
 }) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -19,9 +20,9 @@ export default function Input({
   const passwordInputType = isVisible ? "text" : "password";
 
   return (
-    <div className="input-wrapper">
+    <div className="input-wrapper h-full">
       <div
-        className={`group bg-neutral-dark text-base-light rounded-sm focus-within:border-1 focus-within:border-neutral-light relative ${
+        className={`group bg-neutral-dark text-base-light rounded-sm focus-within:border-1 focus-within:border-neutral-light relative max-w-[600px] min-w-[300px] ${
           inputType === 'search' ? 'h-full' : 'h-27'
         } ${
           passwordInvalid
@@ -36,7 +37,7 @@ export default function Input({
           value={inputValue}
           aria-required="true"
           {...(inputType === 'email' ? { autoComplete: 'email' } : {})}
-          {...(inputType === 'search' ? { placeholder: 'Buscar' } : {})}
+          {...(inputType === 'search' ? { placeholder: placeholder } : {})}
           className={`h-full w-full absolute inset-0 outline-none pl-8 ${
             inputType === 'search' ? 'py-4 pr-20' : 'pt-7'
           } z-5`}
@@ -62,7 +63,7 @@ export default function Input({
           </button>
         )}
         {inputType === 'search' && (
-          <button onClick={func} className="cursor-pointer absolute top-1/2 right-8 -translate-y-1/2 z-10">
+          <button onClick={func} className="cursor-pointer absolute top-1/2 right-8 -translate-y-1/2 z-10 text-neutral-light">
             <HiOutlineSearch size={24} />
           </button>
         )}

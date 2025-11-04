@@ -73,3 +73,8 @@
 .slider-panels {
   @apply md:w-[23%] md:grow-0 md:shrink-0 md:basis-[23%] flex-1 w-full;
 }
+
+/* Hero Start Page */
+.hero-slider-title {
+  @apply text-[3.214rem]/[100%] font-bold whitespace-pre-line;
+}

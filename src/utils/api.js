@@ -6,7 +6,7 @@ export const getApiUrl = () => process.env.NEXT_PUBLIC_API_URL;
 const base64Encode = () => Buffer.from(`${getClientId()}:${getClientSecret()}`, 'utf8').toString('base64');
 
 export const getToken = async () => {
-  const response = await fetch(`${getApiAuthUrl}`, {
+  const response = await fetch(`${getApiAuthUrl()}`, {
     method: 'POST',
     headers: {
       accept: 'application/json; charset=utf-8',
@@ -19,3 +19,24 @@ export const getToken = async () => {
   const {access_token: token} = await response.json();
   return token;
 }
+
+export const fetchData = async (query, setState) => {
+  try {
+    const token = await getToken();
+
+    const response = await fetch(
+      `${getApiUrl()}${query}`,
+      {
+        method: 'GET',
+        headers: {
+          accept: 'application/json; charset=utf-8',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    setState(data.collection);
+  } catch (error) {
+    console.log('Hubo un error al obtener la data:', error);
+  }
+};

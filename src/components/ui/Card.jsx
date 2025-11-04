@@ -47,12 +47,12 @@ export default function Card({
           <div
             className={`overlay absolute top-0 left-0 w-full h-full z-5 rounded-[3%] opacity-0 ${
               !inSidebar
-                ? 'bg-base-light/40 hover:opacity-100'
+                ? 'bg-base-light/40 hover:opacity-100 max-md:bg-transparent'
                 : 'group-hover:opacity-100'
             }`}
           >
             <div
-              className={`buttons w-full h-full grid grid-cols-1 grid-rows-[1fr_auto] place-items-center`}
+              className={`buttons w-full h-full grid grid-cols-1 grid-rows-[1fr_auto] place-items-center max-md:hidden`}
             >
               <div className="play-button">{playButton}</div>
               {!inSidebar && (
