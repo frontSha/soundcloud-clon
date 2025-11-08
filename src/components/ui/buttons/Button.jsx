@@ -10,7 +10,7 @@ import '@/styles/components.css';
 // - actions -> another component -> don't always follow the class rules
 // - transparent
 
-export default function Button({ text, size='medium', variant='secondary', ariaLabel, onClick, cta, fullWidth }) {
+export default function Button({ text, size='medium', variant='secondary', ariaLabel, onClick, cta, fullWidth, submit }) {
 
   const sizeClass = (size) => {
     if (size === 'large') {
@@ -37,10 +37,12 @@ export default function Button({ text, size='medium', variant='secondary', ariaL
   // TODO: estados :hover :focus :active / type transparent: elemento anchor no button
   return (
     <button
-      className={`btn ${sizeClass(size)} ${variantClass(variant)} ${cta ? "btn-cta" : ""} ${fullWidth ? "btn-full" : ""}`}
+      className={`btn ${sizeClass(size)} ${variantClass(variant)} ${
+        cta ? 'btn-cta' : ''
+      } ${fullWidth ? 'btn-full' : ''} ${submit ? 'btn-submit' : ''}`}
       aria-label={ariaLabel}
       onClick={onClick}
-      type='button'
+      type="button"
     >
       {text}
     </button>

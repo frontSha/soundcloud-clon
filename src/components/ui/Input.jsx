@@ -22,7 +22,7 @@ export default function Input({
   return (
     <div className="input-wrapper h-full">
       <div
-        className={`group bg-neutral-dark text-base-light rounded-sm focus-within:border-1 focus-within:border-neutral-light relative max-w-[600px] min-w-[300px] ${
+        className={`group bg-neutral-dark text-base-light rounded-sm focus-within:border-1 focus-within:border-neutral-light relative max-w-[600px] ${
           inputType === 'search' ? 'h-full' : 'h-27'
         } ${
           passwordInvalid

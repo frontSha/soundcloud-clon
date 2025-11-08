@@ -3,7 +3,7 @@ import Button from '@/components/ui/buttons/Button';
 import Image from 'next/image';
 import '@/styles/components.css';
 
-export default function HeroCarousel() {
+export default function HeroCarousel({openModal}) {
   const [swipeValue, setSwipeValue] = useState(0);
 
   const slidesDetails = [
@@ -52,14 +52,14 @@ export default function HeroCarousel() {
     >
       <div
         aria-roledescription="carousel"
-        className="hero-content h-full transition-transform ease-linear duration-300"
+        className="hero-content h-full transition-transform ease-in-out duration-600"
         style={{ transform: `translateX(-${swipeValue * 100}%)` }}
       >
         <div className="h-full w-[300%] flex">
           {slidesDetails.map((slide, i) => (
             <div className="h-full w-[33.33%]" key={`slide-${i + 1}`}>
               <div
-                className="bg-no-repeat bg-cover w-full h-full px-16 pt-48 pb-32 flex flex-col justify-between"
+                className="bg-no-repeat bg-cover w-full h-full pl-16 pt-48 pb-32 pr-32 flex flex-col justify-between"
                 style={{ backgroundImage: `url(${slide.background})` }}
               >
                 <div className="slide-content max-w-[560px]">
@@ -106,9 +106,9 @@ export default function HeroCarousel() {
             alt="SoundCloud logo"
           />
         </div>
-        <div className="header-buttons *:mr-3">
-          <Button text={'Inicia sesión'} variant="tertiary" />
-          <Button text={'Crea tu cuenta'} variant="primary" />
+        <div className="header-buttons *:mr-4">
+          <Button text={'Inicia sesión'} variant="tertiary" onClick={openModal} ariaLabel={'Inicia sesión en SoundCloud'}/>
+          <Button text={'Crea tu cuenta'} variant="primary" onClick={openModal} ariaLabel={'Crea una cuenta de SoundCloud'}/>
           <Button text={'Para artistas'} variant="transparent" />
         </div>
       </div>

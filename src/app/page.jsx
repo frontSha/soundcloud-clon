@@ -1,16 +1,19 @@
 'use client'
 
+import SignInUpForm from "@/components/domain/SignInUpForm";
 import CarouselSection from "@/components/feature/CarouselSection";
 import Footer from "@/components/layout/Footer";
 import Button from "@/components/ui/buttons/Button";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 import Input from "@/components/ui/Input";
 import { fetchData} from "@/utils/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { IoMdClose } from "react-icons/io";
 
 export default function Home() {
   const [recommendedPlaylists, setRecommendedPlaylists] = useState([]);
   const [trendingPlaylists, setTrendingPlaylists] = useState([]);
+  const dialogRef = useRef(null);
 
   useEffect(() => {
     fetchData(
@@ -22,8 +25,6 @@ export default function Home() {
       setTrendingPlaylists
     );
   }, [])
-
-  console.log(trendingPlaylists);
 
   const sections = [
     {
@@ -37,13 +38,34 @@ export default function Home() {
       collection: trendingPlaylists,
     },
   ];
+
+  const openModal = () => {
+    dialogRef.current.showModal();
+  }
+
+  const closeModal = (e) => {
+    const modal = dialogRef.current;
+
+    e.preventDefault();
+    modal.classList.remove('animate-[swipe-in_.12s_ease-in]');
+    modal.classList.add('animate-[swipe-out_.2s_ease-in-out_forwards]');
+
+    const onEnd = () => {
+      modal.removeEventListener('animationend', onEnd);
+      modal.classList.remove('animate-[swipe-out_.2s_ease-in-out_forwards]');
+      modal.classList.add('animate-[swipe-in_.12s_ease-in]');
+      modal.close();
+    }
+
+    modal.addEventListener('animationend', onEnd, { once: true });
+  }
   
   return (
     <div id="content">
       {/* Desktop */}
       <div className="wrapper-desktop-responsive max-w-[1240px] mx-auto max-lg:w-[960px] max-xl:w-[1080px] max-md:hidden">
         <div id="hero">
-          <HeroCarousel />
+          <HeroCarousel openModal={openModal} />
         </div>
         <div className="actions mt-24 mb-6 flex gap-8 items-center justify-center">
           <div className="w-[600px] h-18">
@@ -99,11 +121,21 @@ export default function Home() {
               Guarda pistas, sigue a artistas y crea tus listas. Y todo, gratis.
             </p>
             <div className="signup-button my-5">
-              <Button text={'Crea tu cuenta'} variant="primary" cta />
+              <Button
+                text={'Crea tu cuenta'}
+                variant="primary"
+                cta
+                onClick={openModal}
+              />
             </div>
             <div className="signin mt-2.5 mb-5">
               <span className="mr-5">¿Ya tienes una cuenta?</span>
-              <Button text={'Inicia sesión'} variant="tertiary" size="large" />
+              <Button
+                text={'Inicia sesión'}
+                variant="tertiary"
+                size="large"
+                onClick={openModal}
+              />
             </div>
           </div>
         </div>
@@ -111,6 +143,19 @@ export default function Home() {
           <Footer />
         </div>
       </div>
+
+      <dialog
+        className="bg-base w-[450px] rounded-sm p-12 mt-38 mb-15 fixed left-1/2 -translate-x-1/2 backdrop:bg-base-light/40 transition-transform max-[550px]:h-screen max-[550px]:w-screen max-[550px]:m-0 max-[550px]:top-1/2 max-[550px]:-translate-y-1/2 animate-[swipe-in_.12s_ease-in]"
+        ref={dialogRef}
+      >
+        <button
+          onClick={closeModal}
+          className="btn-secondary rounded-full h-16 w-16 flex justify-center items-center cursor-pointer absolute top-8 right-8"
+        >
+          <IoMdClose size={24} />
+        </button>
+        <SignInUpForm />
+      </dialog>
 
       {/* Mobile */}
       <div className="wrapper-mobile md:hidden relative min-w-[370px]">
@@ -147,7 +192,11 @@ export default function Home() {
               </svg>
             </div>
             <div className="buttons ml-12 flex gap-3">
-              <Button text={'Iniciar sesión'} variant="tertiary" />
+              <Button
+                text={'Iniciar sesión'}
+                variant="tertiary"
+                onClick={openModal}
+              />
               <a
                 href="https://play.google.com/store/apps/details?id=com.soundcloud.android&hl=en"
                 target="_blank"
@@ -175,20 +224,20 @@ export default function Home() {
               text={'Crea una cuenta gratuita'}
               variant="primary"
               fullWidth
+              onClick={openModal}
             />
           </div>
         </div>
         <main className="h-fit">
-          {
-            sections && sections.map((section, i) => (
+          {sections &&
+            sections.map((section, i) => (
               <CarouselSection
                 key={`section-${i}`}
                 sectionId={section.id}
                 sectionTitle={section.title}
-                collection={section.collection} 
+                collection={section.collection}
               />
-            ))
-          }
+            ))}
         </main>
         <div id="footer">
           <Footer />

@@ -30,9 +30,13 @@
   @apply py-6.5 px-11.5 h-23 min-w-[200px] text-[1.286rem];
 }
 
+.btn-submit {
+  @apply h-22 text-body font-bold py-4;
+}
+
 /* Full width button - mobile */
 .btn-full {
-  @apply max-md:w-full;
+  @apply w-full;
 }
 
 /* sólo cuando [data-theme="light"] sea aplicado */
@@ -77,4 +81,35 @@
 /* Hero Start Page */
 .hero-slider-title {
   @apply text-[3.214rem]/[100%] font-bold whitespace-pre-line;
+}
+
+/* Modal */
+@keyframes swipe-in {
+  0% {
+    transform: translateY(-100px);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  70% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes swipe-out {
+  0% {
+    transform: translateY(0px);
+  }
+  30% {
+    transform: translateY(30px);
+  }
+  70% {
+    transform: translateY(-200px);
+  }
+  100% {
+    transform: translateY(-800px);
+  }
 }
