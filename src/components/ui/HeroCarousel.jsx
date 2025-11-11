@@ -3,7 +3,7 @@ import Button from '@/components/ui/buttons/Button';
 import Image from 'next/image';
 import '@/styles/components.css';
 
-export default function HeroCarousel({openModal}) {
+export default function HeroCarousel({openSignInForm, openSignUpForm}) {
   const [swipeValue, setSwipeValue] = useState(0);
 
   const slidesDetails = [
@@ -107,8 +107,8 @@ export default function HeroCarousel({openModal}) {
           />
         </div>
         <div className="header-buttons *:mr-4">
-          <Button text={'Inicia sesión'} variant="tertiary" onClick={openModal} ariaLabel={'Inicia sesión en SoundCloud'}/>
-          <Button text={'Crea tu cuenta'} variant="primary" onClick={openModal} ariaLabel={'Crea una cuenta de SoundCloud'}/>
+          <Button text={'Inicia sesión'} variant="tertiary" onClick={openSignInForm} ariaLabel={'Inicia sesión en SoundCloud'}/>
+          <Button text={'Crea tu cuenta'} variant="primary" onClick={openSignUpForm} ariaLabel={'Crea una cuenta de SoundCloud'}/>
           <Button text={'Para artistas'} variant="transparent" />
         </div>
       </div>

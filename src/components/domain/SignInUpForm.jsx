@@ -1,11 +1,11 @@
 import Button from "../ui/buttons/Button";
 import Input from "../ui/Input";
 
-export default function SignInUpForm() {
+export default function SignInForm({ emailValue, passwordValue, emailFunc, passwordFunc, isPasswordInvalid, invalidCredentials, submit, variant }) {
   return (
     <div>
       <h1 className="text-base-light text-heading1 font-bold mb-12 pr-18">
-        Inicia sesión o crea una cuenta
+        {variant === 'signin' ? 'Inicia sesión' : 'Crea una cuenta'}
       </h1>
       <p className="mb-8 text-neutral-light font-normal">
         Al hacer clic en cualquiera de los botones “Continuar” a continuación,
@@ -29,8 +29,34 @@ export default function SignInUpForm() {
         O por correo electrónico
       </span>
       <form className="*:mb-8">
-        <Input inputType={'email'} inputName={'email'} />
-        <Button text={'Continuar'} size="large" variant="primary" ariaLabel={'Enviar'} fullWidth submit />
+        <Input
+          inputType={'email'}
+          inputName={'email'}
+          inputValue={emailValue}
+          func={emailFunc}
+          invalidCredentials={invalidCredentials}
+        />
+        <Input
+          inputName={'password'}
+          inputValue={passwordValue}
+          func={passwordFunc}
+          passwordInvalid={isPasswordInvalid}
+          invalidCredentials={invalidCredentials}
+        />
+        {invalidCredentials && (
+          <span className="text-status-error text-captions px-8 mb-2 inline-block">
+            Email o contraseña inválidos.
+          </span>
+        )}
+        <Button
+          onClick={submit}
+          text={'Continuar'}
+          size="large"
+          variant="primary"
+          ariaLabel={'Enviar'}
+          fullWidth
+          submit
+        />
       </form>
     </div>
   );

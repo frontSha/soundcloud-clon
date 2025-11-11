@@ -8,8 +8,9 @@ export default function Input({
   inputType,
   inputName,
   inputValue,
+  placeholder,
   passwordInvalid = false,
-  placeholder
+  invalidCredentials = false
 }) {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -25,7 +26,7 @@ export default function Input({
         className={`group bg-neutral-dark text-base-light rounded-sm focus-within:border-1 focus-within:border-neutral-light relative max-w-[600px] ${
           inputType === 'search' ? 'h-full' : 'h-27'
         } ${
-          passwordInvalid
+          passwordInvalid || invalidCredentials
             ? 'border-1 border-status-error focus-within:border-status-error'
             : ''
         }`}
@@ -36,8 +37,8 @@ export default function Input({
           type={inputName === 'password' ? passwordInputType : inputType}
           value={inputValue}
           aria-required="true"
+          placeholder={inputType === 'search' ? placeholder : ' '}
           {...(inputType === 'email' ? { autoComplete: 'email' } : {})}
-          {...(inputType === 'search' ? { placeholder: placeholder } : {})}
           className={`h-full w-full absolute inset-0 outline-none pl-8 ${
             inputType === 'search' ? 'py-4 pr-20' : 'pt-7'
           } z-5`}
@@ -45,7 +46,7 @@ export default function Input({
         {inputType !== 'search' && (
           <label
             htmlFor={inputName}
-            className="text-neutral-light text-captions absolute top-1/2 left-8 -translate-y-1/2 group-focus-within:top-8 transition-transform ease-in-out duration-500 z-0"
+            className="text-neutral-light text-captions absolute top-1/2 left-8 -translate-y-1/2 group-focus-within:top-8 transition-transform ease-in-out duration-500 z-0 group-has-[input:not(:placeholder-shown)]:top-8"
           >
             {inputType === 'email'
               ? 'Tu dirección de email'
@@ -56,6 +57,7 @@ export default function Input({
         )}
         {inputName === 'password' && (
           <button
+            type="button"
             onClick={handlePasswordVisibility}
             className="cursor-pointer absolute top-1/2 right-8 -translate-y-1/2 z-10"
           >
@@ -63,7 +65,10 @@ export default function Input({
           </button>
         )}
         {inputType === 'search' && (
-          <button onClick={func} className="cursor-pointer absolute top-1/2 right-8 -translate-y-1/2 z-10 text-neutral-light">
+          <button
+            onClick={func}
+            className="cursor-pointer absolute top-1/2 right-8 -translate-y-1/2 z-10 text-neutral-light"
+          >
             <HiOutlineSearch size={24} />
           </button>
         )}

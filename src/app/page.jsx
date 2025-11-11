@@ -7,13 +7,24 @@ import Button from "@/components/ui/buttons/Button";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 import Input from "@/components/ui/Input";
 import { fetchData} from "@/utils/api";
+import { supabase } from "@/utils/supabase";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
 export default function Home() {
+  const router = useRouter();
   const [recommendedPlaylists, setRecommendedPlaylists] = useState([]);
   const [trendingPlaylists, setTrendingPlaylists] = useState([]);
   const dialogRef = useRef(null);
+  const [formVariant, setFormVariant] = useState('');
+
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [signUpPassword, setSignUpPassword] = useState('');
+  const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
+  const [invalidCredentials, setInvalidCredentials] = useState(false);
 
   useEffect(() => {
     fetchData(
@@ -39,8 +50,9 @@ export default function Home() {
     },
   ];
 
-  const openModal = () => {
-    dialogRef.current.showModal();
+  const openModal = (variant) => {
+    setFormVariant(variant);
+    dialogRef.current?.showModal();
   }
 
   const closeModal = (e) => {
@@ -59,13 +71,58 @@ export default function Home() {
 
     modal.addEventListener('animationend', onEnd, { once: true });
   }
+
+  const signInUser = async (e) => {
+    e.preventDefault();
+    setInvalidCredentials(false);
+
+    let { data, error } = await supabase.auth.signInWithPassword({
+      email: signInEmail,
+      password: signInPassword,
+    });
+
+    if (error) {
+      if (error.status === 400 || error.status === 400) {
+        setInvalidCredentials(true);
+        console.log('credenciales inválidas');
+      }
+        
+      return;
+    }
+
+    setSignInEmail('');
+    setSignInPassword('');
+    router.push('/home');
+  }
+
+  const signUpUser = async (e) => {
+    e.preventDefault();
+    setIsPasswordInvalid(false);
+    
+    if (signUpPassword.length < 6) {
+      setIsPasswordInvalid(true);
+      return;
+    }
+
+    let { data, error } = await supabase.auth.signUp({
+      email: signUpEmail,
+      password: signUpPassword,
+    });
+
+    setSignUpEmail('');
+    setSignUpPassword('');
+    router.push('/home');
+  }
   
   return (
     <div id="content">
       {/* Desktop */}
       <div className="wrapper-desktop-responsive max-w-[1240px] mx-auto max-lg:w-[960px] max-xl:w-[1080px] max-md:hidden">
         <div id="hero">
-          <HeroCarousel openModal={openModal} />
+          <HeroCarousel
+            openSignInForm={() => openModal('signin')}
+            openSignUpForm={() => openModal('signup')}
+          />
         </div>
         <div className="actions mt-24 mb-6 flex gap-8 items-center justify-center">
           <div className="w-[600px] h-18">
@@ -125,7 +182,7 @@ export default function Home() {
                 text={'Crea tu cuenta'}
                 variant="primary"
                 cta
-                onClick={openModal}
+                onClick={() => openModal('signup')}
               />
             </div>
             <div className="signin mt-2.5 mb-5">
@@ -134,7 +191,7 @@ export default function Home() {
                 text={'Inicia sesión'}
                 variant="tertiary"
                 size="large"
-                onClick={openModal}
+                onClick={() => openModal('signin')}
               />
             </div>
           </div>
@@ -154,7 +211,28 @@ export default function Home() {
         >
           <IoMdClose size={24} />
         </button>
-        <SignInUpForm />
+        {formVariant === 'signin' && (
+          <SignInUpForm
+            variant={formVariant}
+            emailFunc={(val) => setSignInEmail(val)}
+            emailValue={signInEmail}
+            passwordFunc={(val) => setSignInPassword(val)}
+            passwordValue={signInPassword}
+            invalidCredentials={invalidCredentials}
+            submit={signInUser}
+          />
+        )}
+        {formVariant === 'signup' && (
+          <SignInUpForm
+            variant={formVariant}
+            emailFunc={(val) => setSignUpEmail(val)}
+            emailValue={signUpEmail}
+            passwordFunc={(val) => setSignUpPassword(val)}
+            passwordValue={signUpPassword}
+            isPasswordInvalid={isPasswordInvalid}
+            submit={signUpUser}
+          />
+        )}
       </dialog>
 
       {/* Mobile */}
@@ -195,7 +273,7 @@ export default function Home() {
               <Button
                 text={'Iniciar sesión'}
                 variant="tertiary"
-                onClick={openModal}
+                onClick={() => openModal('signin')}
               />
               <a
                 href="https://play.google.com/store/apps/details?id=com.soundcloud.android&hl=en"
@@ -224,7 +302,7 @@ export default function Home() {
               text={'Crea una cuenta gratuita'}
               variant="primary"
               fullWidth
-              onClick={openModal}
+              onClick={() => openModal('signup')}
             />
           </div>
         </div>
