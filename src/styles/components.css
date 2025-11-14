@@ -113,3 +113,16 @@
     transform: translateY(-800px);
   }
 }
+
+/* audio player */
+.volume-slider {
+  @apply -rotate-90 w-[120px] h-[4] bg-transparent appearance-none origin-center cursor-grab rounded-md outline-none;
+}
+
+.volume-slider::-webkit-slider-runnable-track {
+  @apply bg-base-light/15 h-[4] rounded-full;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  @apply appearance-none w-8 h-8 rounded-full bg-base border-1 border-base-light -mt-3; 
+}

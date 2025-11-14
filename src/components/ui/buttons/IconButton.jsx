@@ -184,14 +184,14 @@ export function ShuffleButton({buttonSize, variant, onClick, on}) {
   );
 }
 
-export function VolumeControl({buttonSize, variant, onClick, on}) {
+export function VolumeControl({buttonSize, variant, onClick, off}) {
   return (
     <IconButton
       size={buttonSize}
       variant={variant}
-      ariaLabel={!on ? 'Subir volumen' : 'Silenciar'}
+      ariaLabel={!off ? 'Silenciar' : 'Subir volumen'}
       onClick={onClick}
-      icon={on ? <HiVolumeUp size={16} /> : <HiVolumeOff size={16} />}
+      icon={off ? <HiVolumeOff size={16} /> : <HiVolumeUp size={16} />}
     />
   );
 }

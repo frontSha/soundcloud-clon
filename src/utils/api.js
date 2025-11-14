@@ -20,7 +20,7 @@ export const getToken = async () => {
   return token;
 }
 
-export const fetchData = async (query, setState) => {
+export const fetchData = async (query) => {
   try {
     const token = await getToken();
 
@@ -35,7 +35,7 @@ export const fetchData = async (query, setState) => {
       }
     );
     const data = await response.json();
-    setState(data.collection);
+    return data;
   } catch (error) {
     console.log('Hubo un error al obtener la data:', error);
   }

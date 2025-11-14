@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
+import { PlayerTracksProvider } from "@/context/PlayerTracksContext";
+import AudioPlayer from "@/components/domain/AudioPlayer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,7 +19,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} antialiased`}
       >
-        {children}
+        <PlayerTracksProvider>
+          {children}
+          <AudioPlayer />
+        </PlayerTracksProvider>
       </body>
     </html>
   );
