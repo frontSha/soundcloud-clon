@@ -1,9 +1,9 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { fetchData } from '@/utils/api';
-import AudioPlayer from '@/components/domain/AudioPlayer';
 import { PlayerTracksContext } from '@/context/PlayerTracksContext';
+import Search from '@/components/domain/Search';
 
 export default function page() {
   const {setTracks} = useContext(PlayerTracksContext);
@@ -16,6 +16,8 @@ export default function page() {
   }, [])
 
   return (
-    <div>page</div>
+    <div>
+      <Search />
+    </div>
   )
 }

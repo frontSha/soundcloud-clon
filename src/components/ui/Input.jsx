@@ -9,6 +9,7 @@ export default function Input({
   inputName,
   inputValue,
   placeholder,
+  searchOnClick,
   passwordInvalid = false,
   invalidCredentials = false
 }) {
@@ -66,7 +67,8 @@ export default function Input({
         )}
         {inputType === 'search' && (
           <button
-            onClick={func}
+            type="submit"
+            onClick={searchOnClick}
             className="cursor-pointer absolute top-1/2 right-8 -translate-y-1/2 z-10 text-neutral-light"
           >
             <HiOutlineSearch size={24} />
