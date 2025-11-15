@@ -43,16 +43,15 @@ export default function Footer() {
       >
         <ul className="whitespace-normal">
           {footerLinks.desktop.map((link, i) => (
-            <li
-              key={`desktop-link-${i}`}
-              className="inline after:content-['\00a0·\00a0'] last:after:content-[''] text-neutral-light"
-            >
-              <a
-                href="#"
-                className="text-neutral-light hover:text-neutral-medium font-normal"
+            <li key={`desktop-link-${i}`} className="inline text-neutral-light">
+              <span
+                className="text-neutral-light hover:text-neutral-medium font-normal cursor-pointer"
               >
                 {link}
-              </a>
+              </span>
+              {i !== footerLinks.desktop.length - 1 && (
+                <span aria-hidden="true">{'\u00A0\u00B7 '}</span>
+              )}
             </li>
           ))}
         </ul>
@@ -76,7 +75,7 @@ export default function Footer() {
               <img
                 src="https://m.sndcdn.com/_next/static/images/Spanish-2c94a581563297b2f74e042c839bcc76.png"
                 alt="PlayStore"
-                className='h-full'
+                className="h-full"
               />
             </a>
             <a
