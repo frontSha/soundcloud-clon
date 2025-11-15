@@ -25,7 +25,7 @@ export default function Input({
     <div className="input-wrapper h-full">
       <div
         className={`group bg-neutral-dark text-base-light rounded-sm focus-within:border-1 focus-within:border-neutral-light relative max-w-[600px] ${
-          inputType === 'search' ? 'h-full' : 'h-27'
+          inputType === 'search' ? 'h-18' : 'h-27'
         } ${
           passwordInvalid || invalidCredentials
             ? 'border-1 border-status-error focus-within:border-status-error'

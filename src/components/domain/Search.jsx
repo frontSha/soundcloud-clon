@@ -18,18 +18,16 @@ export default function Search({ variant = 'default' }) {
   }
 
   return (
-    <div className='h-24 w-2xl'>
-      <Input
-        inputType={'search'}
-        inputName={'search'}
-        placeholder={
-          variant === 'start'
-            ? 'Busca artistas, grupos, pistas y podcasts'
-            : 'Buscar'
-        }
-        func={(val) => setQuery(val)}
-        searchOnClick={handleSearch}
-      />
-    </div>
+    <Input
+      inputType={'search'}
+      inputName={'search'}
+      placeholder={
+        variant === 'start'
+          ? 'Busca artistas, grupos, pistas y podcasts'
+          : 'Buscar'
+      }
+      func={(val) => setQuery(val)}
+      searchOnClick={handleSearch}
+    />
   );
 }
