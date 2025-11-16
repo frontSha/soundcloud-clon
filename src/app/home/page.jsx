@@ -14,7 +14,7 @@ export default function page() {
   useEffect(() => {
     (async () => {
       const tracks = await fetchData('/tracks?q=esoteric&access=playable&limit=5&linked_partitioning=true');
-      // setHomeTracks(tracks?.collection);
+      setHomeTracks(tracks?.collection);
     })();
   }, [])
 
@@ -26,8 +26,8 @@ export default function page() {
       <main className="md:flex md:max-w-[1240px] mx-auto md:max-lg:w-[960px] md:max-xl:w-[1080px]">
         <div className="content md:grow md:pt-12 md:pr-16">
           <div>
-            {HomeTracks &&
-              HomeTracks.map((track) => (
+            {homeTracks &&
+              homeTracks.map((track) => (
                 <TrackCard
                   key={track.id}
                   trackImg={track.artwork_url}
