@@ -64,20 +64,26 @@ export default function AudioPlayer() {
           `/tracks/${encodeURIComponent(trackUrn)}/streams?secret_token=${token}`
         );
 
+        console.log(streams);
+
         const url =
           streams.hls_aac_160_url ||
           streams.hls_mp3_128_url ||
           streams.http_mp3_128_url;
 
-        const streamData = await fetch(`${url}`, 
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              accept: '*/*',
-            }
-          }
-        );
-        setStream(streamData.url);
+        // redirección 302 por cambios en la api
+        const streamData = await fetch(`${url}`, {
+          method: 'HEAD',
+          redirect: 'manual',
+        });
+
+        const streamUrl = streamData.headers.get('Location');
+
+        if (!streamUrl) {
+          throw new Error('No se recibió Location en el HEAD redirect');
+        }
+
+        setStream(streamUrl);
       } catch (error) {
         console.log('Error al obtener stream url:', error);
       }
@@ -85,6 +91,8 @@ export default function AudioPlayer() {
     })();
 
   }, [currentTrack])
+
+  console.log(stream);
 
   const loadMusic = () => {
     music.src = stream;
@@ -312,7 +320,7 @@ export default function AudioPlayer() {
                 <p className="text-heading5 font-semibold text-neutral-light">
                   {currentTrack && currentTrack.user.username}
                 </p>
-                <p className="text-heading5 font-semibold text-base-light">
+                <p className="text-heading5 font-semibold text-base-light truncate">
                   {currentTrack && currentTrack.title}
                 </p>
               </div>

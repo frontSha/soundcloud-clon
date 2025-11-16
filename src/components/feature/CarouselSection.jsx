@@ -1,11 +1,7 @@
-import { AddToQueueButton, PlayButton } from "../ui/buttons/IconButton";
 import Card from "../ui/Card";
 import Carousel from "../ui/Carousel";
-import Tooltip from "../ui/Tooltip";
 
-export default function CarouselSection({ sectionTitle, collection, sectionId, variant="landing" }) {
-  const inHomeSection = variant = "home";
-  const extraProps = inHomeSection ? { playButton: <PlayButton buttonSize={'large'} iconSize={20} custom={'btn-xxl'} />, actions: <Tooltip text={'Añadir a continuación'}><AddToQueueButton/></Tooltip> } : {};
+export default function CarouselSection({ sectionTitle, collection, sectionId }) {
 
   return (
     <section id={sectionId}>
@@ -22,7 +18,9 @@ export default function CarouselSection({ sectionTitle, collection, sectionId, v
                   artworkURL={list.artwork_url}
                   heading={list.title}
                   username={list.user.username}
-                  {...extraProps}
+                  releaseDate={list.release}
+                  buttonIconSize={'20'}
+                  playlist={list}
                 />
               </div>
             ))}
