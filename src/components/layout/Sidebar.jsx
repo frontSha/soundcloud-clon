@@ -4,7 +4,7 @@ export default function Sidebar({children}) {
   return (
     <div
       aria-roledescription="sidebar"
-      className="w-[360px] bg-base min-h-screen max-md:hidden"
+      className="max-w-[360px] min-w-[360px] bg-base max-md:hidden"
     >
       <div>
         {children}

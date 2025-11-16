@@ -1,5 +1,6 @@
 import { IoMdHeart, IoMdPlay } from "react-icons/io";
 import Stats from "./Stats";
+import { formatQuantities } from "@/utils/miscellaneous";
 
 export default function Card({
   playButton,
@@ -52,7 +53,7 @@ export default function Card({
             }`}
           >
             <div
-              className={`buttons w-full h-full grid grid-cols-1 grid-rows-[1fr_auto] place-items-center max-md:hidden`}
+              className={`buttons w-full h-full grid grid-cols-1 grid-rows-[1fr_auto] place-items-center`}
             >
               <div className="play-button">{playButton}</div>
               {!inSidebar && (
@@ -112,12 +113,12 @@ export default function Card({
             <div className="stats flex gap-4">
               <Stats
                 stat={'reproducciones'}
-                statCount={streamCount}
+                statCount={formatQuantities(streamCount)}
                 icon={<IoMdPlay size={16} />}
               />
               <Stats
                 stat={'me gustas'}
-                statCount={likeCount}
+                statCount={formatQuantities(likeCount)}
                 icon={<IoMdHeart size={16} />}
               />
             </div>

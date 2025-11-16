@@ -3,7 +3,7 @@ import { IoMdHeart, IoMdPause, IoMdPlay } from 'react-icons/io';
 import { FaUserPlus, FaUserCheck } from 'react-icons/fa';
 import { TfiMoreAlt } from 'react-icons/tfi';
 import { TbCopy } from 'react-icons/tb';
-import { LuListPlus, LuListStart, LuListVideo } from 'react-icons/lu';
+import { LuListEnd, LuListPlus, LuListVideo } from 'react-icons/lu';
 import { IoPlaySkipBackSharp, IoPlaySkipForwardSharp } from 'react-icons/io5';
 import { PiShuffleBold } from 'react-icons/pi';
 import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
@@ -114,7 +114,7 @@ export function AddToQueueButton({ buttonSize, onClick, variant, text }) {
       ariaLabel={'Añadir a continuación'}
       onClick={onClick}
       text={text}
-      icon={<LuListStart size={18} />}
+      icon={<LuListEnd size={18} />}
     />
   );
 }

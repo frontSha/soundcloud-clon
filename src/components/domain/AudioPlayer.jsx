@@ -91,7 +91,11 @@ export default function AudioPlayer() {
   }
 
   useEffect(() => {
-    if (!stream || !music) return;
+    if (!stream) return;
+
+    music.pause();
+    music.currentTime = 0;
+    music.src = '';
 
     if (stream.includes("hls")) {
       if (Hls.isSupported()) {
@@ -105,18 +109,21 @@ export default function AudioPlayer() {
         hls.attachMedia(music);
 
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          if (isPlaying) music.play();
+          music.play();
+          setIsPlaying(true);
         });
 
       } else if (music.canPlayType('application/vnd.apple.mpegurl')) {
         loadMusic();
-        if (isPlaying) music.play();
+        music.play();
+        setIsPlaying(true);
       }
     } else {
       loadMusic();
-      if (isPlaying) music.play();
+      music.play();
+      setIsPlaying(true);
     }
-  }, [stream])
+  }, [stream, music])
 
   useEffect(() => {
     return () => {
