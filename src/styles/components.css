@@ -126,3 +126,8 @@
 .volume-slider::-webkit-slider-thumb {
   @apply appearance-none w-8 h-8 rounded-full bg-base border-1 border-base-light -mt-3; 
 }
+
+/* containers */
+.desktop-container {
+  @apply md:max-w-[1240px] mx-auto md:max-lg:w-[960px] md:max-xl:w-[1080px];
+}

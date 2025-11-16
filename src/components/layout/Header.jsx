@@ -5,9 +5,9 @@ import Nav from './Nav';
 
 export default function Header() {
   const headerLinks = [
-   {label: "Probar Artist Pro"},
-   {label: "Para artistas"},
-   {label: "Subir"}
+   {label: "Probar Artist Pro", href: "/subscriptions"},
+   {label: "Para artistas", href: "/artists"},
+   {label: "Subir", href: "/upload"}
   ]
 
   return (
@@ -37,7 +37,7 @@ export default function Header() {
         <div aria-roledescription='right' className='flex'>
           <div className='h-full flex items-center'>
             {headerLinks.map((link,i) => (
-              <Link href={'/404'} key={`link-${i}`} className={`mr-8 font-semibold py-6.5 px-4 hover:text-base-light cursor-pointer ${link.label === 'Probar Artist Pro' ? "text-accent" : "text-neutral-light" }`}>{link.label}</Link>
+              <Link href={link.href} key={`link-${i}`} className={`mr-8 font-semibold py-6.5 px-4 hover:text-base-light cursor-pointer ${link.label === 'Probar Artist Pro' ? "text-accent" : "text-neutral-light" }`}>{link.label}</Link>
             ))}
           </div>
           <div>

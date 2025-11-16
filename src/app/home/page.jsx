@@ -41,7 +41,7 @@ export default function page() {
   return (
     <div>
       <Header />
-      <main className="md:flex md:max-w-[1240px] mx-auto md:max-lg:w-[960px] md:max-xl:w-[1080px]">
+      <main className="desktop-container md:flex">
         <div className="content md:grow md:pt-12 md:pr-16">
           <div>
             {

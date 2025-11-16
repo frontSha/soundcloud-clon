@@ -17,7 +17,7 @@ export default function Nav() {
     },
     {
       id: "lib",
-      href: "/404",
+      href: "/library",
       label: "Biblioteca"
     }
   ]
