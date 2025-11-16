@@ -1,10 +1,13 @@
 import { IoMdHeart, IoMdPlay } from "react-icons/io";
 import Stats from "./Stats";
-import { formatQuantities } from "@/utils/miscellaneous";
+import { formatQuantities, timeAgo } from "@/utils/miscellaneous";
+import { AddToQueueButton, PlayButton } from "./buttons/IconButton";
+import Tooltip from "./Tooltip";
+import { useContext } from "react";
+import { PlayerTracksContext } from "@/context/PlayerTracksContext";
+import { getToken } from "@/utils/api";
 
 export default function Card({
-  playButton,
-  actions,
   cardLink,
   artworkURL,
   heading,
@@ -14,13 +17,44 @@ export default function Card({
   releaseDate,
   variant = "default",
   likeCount,
-  streamCount
+  streamCount,
+  buttonIconSize,
+  playlist,
 }) {
 
   const inSidebar = variant === "sidebar";
+  
+  const {setTracks} = useContext(PlayerTracksContext);
+
+  const handlePlay = async () => {
+    const tracks = await getTracks();
+    setTracks(tracks);
+  }
+
+  const addToQueue = async () => {
+    const tracks = await getTracks();
+    setTracks(prev => [...prev, tracks]);
+  }
+
+  const getTracks = async () => {
+    const token = await getToken();
+
+    const res = await fetch(
+      `https://api.soundcloud.com/playlists/${encodeURIComponent(playlist.urn)}/tracks`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          accept: 'application/json; charset=utf-8',
+        },
+      }
+    );
+
+    const data = await res.json();
+    return data;
+  }
 
   return (
-    <div className="w-fit group">
+    <div className="group">
       <div
         role="card"
         className={`flex ${
@@ -55,14 +89,24 @@ export default function Card({
             <div
               className={`buttons w-full h-full grid grid-cols-1 grid-rows-[1fr_auto] place-items-center`}
             >
-              <div className="play-button">{playButton}</div>
+              <div className="play-button">
+                <PlayButton
+                  buttonSize={'large'}
+                  variant={'primary'}
+                  iconSize={buttonIconSize}
+                  custom={'btn-xxl'}
+                  onClick={handlePlay}
+                />
+              </div>
               {!inSidebar && (
                 <div
                   className="action-buttons place-self-end mr-2 mb-1 xl:mr-4 xl:mb-4 lg:mr-0 lg:mb-2"
                   data-theme="light"
                   data-variant="ghost"
                 >
-                  {actions}
+                  <Tooltip text={'Agregar a la fila'}>
+                    <AddToQueueButton onClick={addToQueue} />
+                  </Tooltip>
                 </div>
               )}
             </div>
@@ -97,14 +141,16 @@ export default function Card({
               {releaseDate && (
                 <span>
                   <span className="mx-2">·</span>
-                  <span>{releaseDate}</span>
+                  <span>{timeAgo(releaseDate)}</span>
                 </span>
               )}
             </div>
 
             {inSidebar && (
-              <div className="actions absolute bottom-0 right-0 w-fit flex gap-4 opacity-0 group-hover:opacity-100">
-                {actions}
+              <div className="actions absolute bottom-0 right-0 w-fit opacity-0 group-hover:opacity-100">
+                <Tooltip text={'Agregar a la fila'}>
+                  <AddToQueueButton onClick={addToQueue} />
+                </Tooltip>
               </div>
             )}
           </div>

@@ -75,7 +75,7 @@
 
 /* Slider */
 .slider-panels {
-  @apply md:w-[23%] md:grow-0 md:shrink-0 md:basis-[23%] flex-1 w-full;
+  @apply md:w-[23%] md:grow-0 md:shrink-0 md:basis-[23%] max-md:flex-1 max-md:w-full;
 }
 
 /* Hero Start Page */
