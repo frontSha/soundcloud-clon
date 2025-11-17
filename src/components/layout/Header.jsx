@@ -13,7 +13,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 left-0 z-50 bg-base">
       <div className="max-w-[1240px] mx-auto max-lg:w-[960px] max-xl:w-[1080px] max-md:hidden px-8 h-24 flex">
-        <div aria-roledescription="left" className="flex items-center h-full">
+        <div id="left" className="flex items-center h-full">
           <div className="w-24 mr-12">
             <svg
               viewBox="0 0 143 64"
@@ -29,12 +29,12 @@ export default function Header() {
           </div>
           <Nav />
         </div>
-        <div aria-roledescription="middle" className='grow'>
+        <div id="middle" className='grow'>
           <div className='py-2.5 ml-12 mr-8 h-full min-w-25'>
             <Search />
           </div>
         </div>
-        <div aria-roledescription='right' className='flex'>
+        <div id='right' className='flex'>
           <div className='h-full flex items-center'>
             {headerLinks.map((link,i) => (
               <Link href={link.href} key={`link-${i}`} className={`mr-8 font-semibold py-6.5 px-4 hover:text-base-light cursor-pointer ${link.label === 'Probar Artist Pro' ? "text-accent" : "text-neutral-light" }`}>{link.label}</Link>

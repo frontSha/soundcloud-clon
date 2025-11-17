@@ -6,23 +6,24 @@ import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import CarouselSection from '@/components/feature/CarouselSection';
 import BottomNav from '@/components/layout/BottomNav';
+import HeaderMobile from '@/components/layout/HeaderMobile';
 
 export default function page() {
   const [collections, setCollections] = useState([]);
   const [trending, setTrending] = useState([]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const collections = await fetchData(
-  //       '/playlists?q=buzzing&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
-  //     );
-  //     setCollections(collections?.collection);
-  //     const trending = await fetchData(
-  //       '/playlists?q=trending&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
-  //     );
-  //     setTrending(trending?.collection);
-  //   })();
-  // }, [])
+  useEffect(() => {
+    (async () => {
+      const collections = await fetchData(
+        '/playlists?q=buzzing&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
+      );
+      setCollections(collections?.collection);
+      const trending = await fetchData(
+        '/playlists?q=trending&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
+      );
+      setTrending(trending?.collection);
+    })();
+  }, [])
 
   console.log(trending);
 
@@ -42,6 +43,7 @@ export default function page() {
   return (
     <div className="relative">
       <Header />
+      <HeaderMobile />
       <main className="desktop-container md:flex">
         <div className="content md:grow md:pt-12 md:pr-16">
           <div>

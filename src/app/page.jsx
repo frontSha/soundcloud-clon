@@ -27,18 +27,18 @@ export default function Home() {
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
   const [invalidCredentials, setInvalidCredentials] = useState(false);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const collections = await fetchData(
-  //       '/playlists?q=buzzing&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
-  //     );
-  //     setRecommendedPlaylists(collections?.collection);
-  //     const trending = await fetchData(
-  //       '/playlists?q=trending&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
-  //     );
-  //     setTrendingPlaylists(trending?.collection)
-  //   })();
-  // }, [])
+  useEffect(() => {
+    (async () => {
+      const collections = await fetchData(
+        '/playlists?q=buzzing&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
+      );
+      setRecommendedPlaylists(collections?.collection);
+      const trending = await fetchData(
+        '/playlists?q=trending&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
+      );
+      setTrendingPlaylists(trending?.collection)
+    })();
+  }, [])
 
   const sections = [
     {
