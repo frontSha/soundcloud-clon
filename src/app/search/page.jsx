@@ -2,6 +2,7 @@
 
 import Search from "@/components/domain/Search";
 import SearchFilters from "@/components/domain/SearchFilters";
+import BottomNav from "@/components/layout/BottomNav";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import { globalSearch } from "@/utils/scSearch";
@@ -41,7 +42,7 @@ export default function page() {
 
   return (
     // if kind === user la info saldrá en userCard, if kind=track > trackCard, if kind=playlist > listCard, etc
-    <div>
+    <div className="relative">
       <Header />
       <div className="desktop-container">
         <div className="md:hidden">
@@ -110,6 +111,7 @@ export default function page() {
           </div>
         </main>
       </div>
+      <BottomNav />
     </div>
   );
 }

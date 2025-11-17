@@ -2,6 +2,7 @@
 
 import SignInUpForm from "@/components/domain/SignInUpForm";
 import CarouselSection from "@/components/feature/CarouselSection";
+import BottomNav from "@/components/layout/BottomNav";
 import Footer from "@/components/layout/Footer";
 import Button from "@/components/ui/buttons/Button";
 import HeroCarousel from "@/components/ui/HeroCarousel";
@@ -26,18 +27,18 @@ export default function Home() {
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
   const [invalidCredentials, setInvalidCredentials] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const collections = await fetchData(
-        '/playlists?q=buzzing&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
-      );
-      setRecommendedPlaylists(collections?.collection);
-      const trending = await fetchData(
-        '/playlists?q=trending&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
-      );
-      setTrendingPlaylists(trending?.collection)
-    })();
-  }, [])
+  // useEffect(() => {
+  //   (async () => {
+  //     const collections = await fetchData(
+  //       '/playlists?q=buzzing&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
+  //     );
+  //     setRecommendedPlaylists(collections?.collection);
+  //     const trending = await fetchData(
+  //       '/playlists?q=trending&access=playable&show_tracks=true&limit=8&offset=0&linked_partitioning=true'
+  //     );
+  //     setTrendingPlaylists(trending?.collection)
+  //   })();
+  // }, [])
 
   const sections = [
     {
@@ -322,6 +323,7 @@ export default function Home() {
         <div id="footer">
           <Footer />
         </div>
+        <BottomNav />
       </div>
     </div>
   );
