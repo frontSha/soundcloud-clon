@@ -6,8 +6,9 @@ import { useContext } from "react";
 import { PlayerTracksContext } from "@/context/PlayerTracksContext";
 import Tooltip from "../ui/Tooltip";
 import Popover from "../ui/Popover";
+import { getToken } from "@/utils/api";
 
-export default function TrackCard({trackName, username, trackImg, releaseDate, tag, streamCount, likeCount, track}) {
+export default function TrackCard({trackName, username, trackImg, releaseDate, tag, streamCount, likeCount, type, track}) {
   const {setTracks} = useContext(PlayerTracksContext);
 
   const handlePlay = () => {
@@ -20,6 +21,34 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
     setTracks((prev) => [...prev, track]);
   };
 
+  // FIX
+  const handleListPlay = async () => {
+      const tracks = await getTracksFromList();
+      setTracks(tracks);
+    }
+  
+  const addListToQueue = async () => {
+    const tracks = await getTracksFromList();
+    setTracks(prev => [...prev, tracks]);
+  }
+  
+  const getTracksFromList = async () => {
+    const token = await getToken();
+
+    const res = await fetch(
+      `https://api.soundcloud.com/playlists/${encodeURIComponent(playlist.urn)}/tracks`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          accept: 'application/json; charset=utf-8',
+        },
+      }
+    );
+
+    const data = await res.json();
+    return data;
+  }
+
   return (
     <div
       aria-label={`${trackName} de ${username}`}
@@ -28,14 +57,16 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
       <div id="sound-body" className="md:py-4 md:pl-8 flex">
         <div
           id="artwork"
-          className="w-52 h-52 md:w-60 md:h-60 mr-6 md:mr-4 rounded-[3%] overflow-clip"
-          onClick={handlePlay} //para mobile
+          className="w-52 h-52 md:w-60 md:h-60 mr-6 md:mr-4 rounded-[3%] overflow-clip bg-linear-135 from-mist to-mauve"
+          onClick={type === 'playlist' ? handleListPlay : handlePlay} //para mobile
         >
-          <img
-            src={trackImg}
-            alt={`Cover de ${trackName}`}
-            className="max-w-full aspect-square object-cover w-full h-auto"
-          />
+          {trackImg && (
+            <img
+              src={trackImg}
+              alt={`Cover de ${trackName}`}
+              className="max-w-full aspect-square object-cover w-full h-auto"
+            />
+          )}
         </div>
         <div
           id="content"
@@ -48,12 +79,15 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
                   iconSize={24}
                   buttonSize={'large'}
                   variant={'primary'}
-                  onClick={handlePlay}
+                  onClick={type === 'playlist' ? handleListPlay : handlePlay}
                 />
               </div>
               <div className="flex flex-col flex-1">
                 <h2 className="md:order-2 text-base-light hover:text-base-light/40 font-bold uppercase md:text-heading4 md:font-semibold">
-                  {trackName}
+                  {trackName}{' '}
+                  <span className="text-neutral-light hover:text-neutral-light/40 font-semibold lowercase">
+                    {'\u00A0\u00B7 '} {type}
+                  </span>
                 </h2>
                 <span className="md:order-1 text-neutral-light hover:text-neutral-light/40 font-700 md:text-heading4 md:font-semibold">
                   {username}
@@ -75,14 +109,18 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
             </div>
             <div className="hidden md:flex justify-between px-8">
               <Tooltip text="Agregar a la fila">
-                <AddToQueueButton onClick={addToQueue} />
+                <AddToQueueButton
+                  onClick={type === 'playlist' ? addListToQueue : addToQueue}
+                />
               </Tooltip>
               <div className="flex justify-end items-center gap-4">
-                <Stats
-                  stat={'reproducciones'}
-                  statCount={formatQuantities(streamCount)}
-                  icon={<IoMdPlay size={16} />}
-                />
+                {streamCount && (
+                  <Stats
+                    stat={'reproducciones'}
+                    statCount={formatQuantities(streamCount)}
+                    icon={<IoMdPlay size={16} />}
+                  />
+                )}
                 <Stats
                   stat={'me gustas'}
                   statCount={formatQuantities(likeCount)}
@@ -91,11 +129,13 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
               </div>
             </div>
             <div className="md:hidden flex items-center gap-2 mt-2">
-              <Stats
-                stat={'reproducciones'}
-                statCount={formatQuantities(streamCount)}
-                icon={<IoMdPlay size={16} />}
-              />
+              {streamCount && (
+                <Stats
+                  stat={'reproducciones'}
+                  statCount={formatQuantities(streamCount)}
+                  icon={<IoMdPlay size={16} />}
+                />
+              )}
               <span aria-hidden="true" className="text-neutral-light">
                 {'\u00B7'}
               </span>
@@ -110,7 +150,7 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
                 buttonSize={'small'}
                 variant={'tertiary'}
                 text={'Agregar a la fila'}
-                onClick={addToQueue}
+                onClick={type === 'playlist' ? addListToQueue : addToQueue}
               />
             </Popover>
           </div>

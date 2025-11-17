@@ -2,6 +2,7 @@
 
 import Search from "@/components/domain/Search";
 import SearchFilters from "@/components/domain/SearchFilters";
+import TrackCard from "@/components/domain/TrackCard";
 import BottomNav from "@/components/layout/BottomNav";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
@@ -24,13 +25,10 @@ export default function page() {
     (async () => {
       const res = await globalSearch(query);
       setResults(res);
-      console.log(results);
       setIsLoading(false);
     })();
   }, [query]);
   
-  console.log(results);
-
   const handleClick = (val) => {
     const filterParams = new URLSearchParams(searchParams.toString());
     filterParams.set('type', val);
@@ -42,7 +40,7 @@ export default function page() {
 
   return (
     // if kind === user la info saldrá en userCard, if kind=track > trackCard, if kind=playlist > listCard, etc
-    <div className="relative">
+    <div className="relative pb-60">
       <Header />
       <div className="desktop-container">
         <div className="md:hidden">
@@ -53,14 +51,16 @@ export default function page() {
         </div>
         <div className="py-8">
           <h1 className="text-heading2 font-semibold text-base-light py-4 px-8">
-            {!query ? 'Buscar' : `Resultados de búsqueda para "${query}"`}
+            {!query && 'Buscar'}
+            {query && isLoading && `Buscando resultados para "${query}"`}
+            {query && !isLoading && `Resultados de búsqueda para "${query}"`}
           </h1>
         </div>
         <main className="md:flex max-md:px-8">
           <Sidebar>
             <SearchFilters activeId={isActive} onChange={handleClick} />
           </Sidebar>
-          <div className="md:flex-1">
+          <div className="md:flex-1 md:*:mb-12 *:mb-8">
             {!query && (
               <div className="flex flex-col items-center pt-38">
                 <div className="w-xs">
@@ -81,33 +81,97 @@ export default function page() {
                 </h2>
               </div>
             )}
-            {query && isLoading && (
-              <h2 className="text-heading3 md:text-heading2 text-center font-semibold pt-38">{`Buscando resultados para ${query}`}</h2>
-            )}
-            {/* {query && isActive === 'all' && results && results.map((result) => {
-              if 
-            })} */}
-            {/* TODO: Modificar función de globalSearch
-              const allResults = [
-                {tracks: ...tracksRes?.collection ?? []},
-                {playlists: ...playlistsRes?.collection ?? []},
-                {users: ...usersRes?.collection ?? []}
-              ]
-            */}
-            {query && isActive === 'sounds' && (
-              <h2>Aquí van a aparecer pistas</h2>
-            )}
+            {query &&
+              isActive === 'all' &&
+              results &&
+              results.map((result) => {
+                if (result.kind === 'track') {
+                  return (
+                    <TrackCard
+                      key={result.id}
+                      trackName={result.title}
+                      username={result.user.username}
+                      trackImg={result.artwork_url}
+                      releaseDate={result.created_at}
+                      tag={result.genre}
+                      streamCount={result.playback_count}
+                      likeCount={result.favoritings_count}
+                      type={result.kind}
+                      track={result}
+                    />
+                  );
+                }
+                if (result.kind === 'playlist') {
+                  return (
+                    <TrackCard
+                      key={result.id}
+                      trackName={result.title}
+                      username={result.user.username}
+                      trackImg={result.artwork_url}
+                      releaseDate={result.created_at}
+                      tag={result.genre}
+                      likeCount={result.likes_count}
+                      type={result.kind}
+                      track={result}
+                    />
+                  );
+                }
+              })}
+
+            {query &&
+              isActive === 'sounds' &&
+              results &&
+              results.map((result) => {
+                if (result.kind === 'track') {
+                  return (
+                    <TrackCard
+                      key={result.id}
+                      trackName={result.title}
+                      username={result.user.username}
+                      trackImg={result.artwork_url}
+                      releaseDate={result.created_at}
+                      tag={result.genre}
+                      streamCount={result.playback_count}
+                      likeCount={result.favoritings_count}
+                      type={result.kind}
+                      track={result}
+                    />
+                  );
+                }
+              })}
             {query && isActive === 'people' && (
               <h2 className="text-heading3 md:text-heading2 text-center font-semibold pt-38">
                 No fue posible mostrar los resultados.
               </h2>
             )}
             {query && isActive === 'albums' && (
-              <h2>Aquí van a aparecer álbumes</h2>
+              <h2 className="text-heading3 md:text-heading2 text-center font-semibold pt-38">
+                No fue posible mostrar los resultados.
+              </h2>
             )}
-            {query && isActive === 'sets' && (
-              <h2>Aquí van a aparecer listas</h2>
-            )}
+            {query &&
+              isActive === 'sets' &&
+              results &&
+              results.map((result) => {
+                if (
+                  result.kind === 'playlist' &&
+                  result.playlist_type === 'PLAYLIST'
+                ) {
+                  return (
+                    <TrackCard
+                      key={result.id}
+                      trackName={result.title}
+                      username={result.user.username}
+                      trackImg={result.artwork_url}
+                      releaseDate={result.created_at}
+                      tag={result.genre}
+                      likeCount={result.likes_count}
+                      type={result.playlist_type}
+                      track={result}
+                    />
+                  );
+                }
+              })}
           </div>
         </main>
       </div>

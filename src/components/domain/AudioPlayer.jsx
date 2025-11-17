@@ -64,8 +64,6 @@ export default function AudioPlayer() {
           `/tracks/${encodeURIComponent(trackUrn)}/streams?secret_token=${token}`
         );
 
-        console.log(streams);
-
         const url =
           streams.hls_aac_160_url ||
           streams.hls_mp3_128_url ||
@@ -75,6 +73,10 @@ export default function AudioPlayer() {
         const streamData = await fetch(`${url}`, {
           method: 'HEAD',
           redirect: 'manual',
+          headers: {
+            Authorization: `OAuth ${token}`,
+            Accept: '*/*',
+          },
         });
 
         const streamUrl = streamData.headers.get('Location');
@@ -255,10 +257,10 @@ export default function AudioPlayer() {
   return (
     <div
       aria-roledescription="audio-player"
-      className="bg-neutral-dark fixed bottom-0 w-full z-50"
+      className="bg-neutral-dark fixed bottom-0 w-full z-50 max-md:bottom-35 max-md:rounded-full max-md:bg-neutral-dark/80"
     >
-      <div className="max-w-[1240px] mx-auto max-lg:w-[960px] max-xl:w-[1080px] max-md:hidden px-8 h-24 w-full">
-        <div className="elements flex items-center h-full">
+      <div className="desktop-container px-8 h-24 w-full max-md:py-2 max-md:h-auto">
+        <div className="elements flex items-center h-full max-md:justify-between">
           <div className="play-controls *:mr-8 flex items-center h-full">
             <SkipPrevButton buttonSize={'large'} onClick={goToPrevTrack} />
             <PlayButton
@@ -272,7 +274,7 @@ export default function AudioPlayer() {
           <div>
             <ShuffleButton onClick={toggleShuffle} on={isShuffled} />
           </div>
-          <div className="timeline flex items-center ml-12 mr-4 w-full h-full">
+          <div className="timeline flex items-center ml-12 mr-4 w-full h-full max-md:hidden">
             <span className="progress text-heading5 font-semibold flex-none">
               {formatTime(currentTime)}
             </span>
@@ -286,9 +288,9 @@ export default function AudioPlayer() {
               {formatTime(trackDuration)}
             </span>
           </div>
-          <div className="volume-control relative group h-full">
+          <div className="volume-control relative group h-full max-md:hidden">
             <div className="h-full flex items-center">
-              <VolumeControl onClick={toggleMute} off={isMuted} />  
+              <VolumeControl onClick={toggleMute} off={isMuted} />
             </div>
             <div
               aria-roledescription="volume-slider"
