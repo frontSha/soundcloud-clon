@@ -2,6 +2,8 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { PlayerTracksProvider } from "@/context/PlayerTracksContext";
 import AudioPlayer from "@/components/domain/AudioPlayer";
+import { Suspense } from "react";
+import Loading from "@/components/ui/loading";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -16,11 +18,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} antialiased`}
-      >
+      <body className={`${inter.variable} antialiased`}>
         <PlayerTracksProvider>
-          {children}
+          <Suspense fallback={<Loading />}>{children}</Suspense>
           <AudioPlayer />
         </PlayerTracksProvider>
       </body>
