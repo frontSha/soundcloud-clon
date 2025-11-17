@@ -239,7 +239,7 @@ export default function Home() {
       </dialog>
 
       {/* Mobile */}
-      <div className="wrapper-mobile md:hidden relative min-w-[370px]">
+      <div className="wrapper-mobile md:hidden relative min-w-[370px] pb-60">
         <div id="header" className="bg-base sticky top-0 left-0 z-50">
           <div className="px-8 py-4 flex justify-between items-center">
             <div className="logo">

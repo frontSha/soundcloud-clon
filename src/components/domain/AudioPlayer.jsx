@@ -8,13 +8,12 @@ import Hls from 'hls.js';
 
 export default function AudioPlayer() {
   const {tracks} = useContext(PlayerTracksContext);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [queue, setQueue] = useState([]);
   const [index, setIndex] = useState(0);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [stream, setStream] = useState('')
-  const musicRef = useRef(new Audio());
-  const music = musicRef.current;
   const trackDuration = Math.floor(currentTrack?.duration / 1000);
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(50);
@@ -22,12 +21,28 @@ export default function AudioPlayer() {
   const isMuted = volume === 0;
   const [isShuffled, setIsShuffled] = useState(false);
 
+  const musicRef = useRef(null);
+  const [audioReady, setAudioReady] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      musicRef.current = new Audio();
+      setAudioReady(true);
+    }
+  }, []);
+
+  const music = musicRef.current;
+  
   const play = () => {
+    if (!music) return;
+
     setIsPlaying(true);
     music.play();
   }
 
   const pause = () => {
+    if (!music) return;
+
     setIsPlaying(false);
     music.pause();
   }
@@ -51,7 +66,7 @@ export default function AudioPlayer() {
   }, [index, queue])
 
   useEffect(() => {
-    if (!currentTrack) return;
+    if (!currentTrack || !music) return;
 
     (async () => {
       try {
@@ -92,16 +107,14 @@ export default function AudioPlayer() {
 
     })();
 
-  }, [currentTrack])
-
-  console.log(stream);
+  }, [currentTrack, music])
 
   const loadMusic = () => {
     music.src = stream;
   }
 
   useEffect(() => {
-    if (!stream) return;
+    if (!stream || !music) return;
 
     music.pause();
     music.currentTime = 0;
@@ -136,14 +149,18 @@ export default function AudioPlayer() {
   }, [stream, music])
 
   useEffect(() => {
-    return () => {
-      music.pause();
-      music.src = '';
+    if (music) {
+      return () => {
+        music.pause();
+        music.src = '';
+      };
     }
   }, [music])
 
   // Skip controls
   const goToNextTrack = () => {
+    if (!music) return;
+
     music.pause();
     music.src = '';
     music.currentTime = 0;
@@ -153,6 +170,8 @@ export default function AudioPlayer() {
   }
 
   const goToPrevTrack = () => {
+    if (!music) return;
+
     music.pause();
     music.src = '';
     music.currentTime = 0;
@@ -163,7 +182,7 @@ export default function AudioPlayer() {
 
   // avanzar a la próx canción al terminar la actual
   useEffect(() => {
-    if (!queue.length) return;
+    if (!music || !queue.length) return;
 
     music.onended = () => {
       music.pause();
@@ -189,13 +208,11 @@ export default function AudioPlayer() {
 
     return `${mm}:${formattedSec}`;
   };
-  
-  const updateTrackProgress = () => {    
-    setCurrentTime(music.currentTime);
-  }
 
   useEffect(() => {
     if (!music) return;
+
+    const updateTrackProgress = () => setCurrentTime(music.currentTime);
 
     music.addEventListener('timeupdate', updateTrackProgress);
 
@@ -251,8 +268,8 @@ export default function AudioPlayer() {
     }
   }
 
-  // no renderizar si no hay una lista de tracks
-  if (!queue.length || !currentTrack) return null;
+  // no renderizar si no hay audio o lista de tracks
+  if (!audioReady || !queue.length || !currentTrack) return null;
 
   return (
     <div
@@ -261,7 +278,7 @@ export default function AudioPlayer() {
     >
       <div className="desktop-container px-8 h-24 w-full max-md:py-2 max-md:h-auto">
         <div className="elements flex items-center h-full max-md:justify-between">
-          <div className="play-controls *:mr-8 flex items-center h-full">
+          <div className="play-controls *:mr-4 md:*:mr-8 flex items-center h-full">
             <SkipPrevButton buttonSize={'large'} onClick={goToPrevTrack} />
             <PlayButton
               buttonSize={'large'}
@@ -270,8 +287,11 @@ export default function AudioPlayer() {
               played={isPlaying}
             />
             <SkipNextButton buttonSize={'large'} onClick={goToNextTrack} />
+            <div className='md:hidden ml-6'>
+              <ShuffleButton onClick={toggleShuffle} on={isShuffled} />
+            </div>
           </div>
-          <div>
+          <div className='max-md:hidden'>
             <ShuffleButton onClick={toggleShuffle} on={isShuffled} />
           </div>
           <div className="timeline flex items-center ml-12 mr-4 w-full h-full max-md:hidden">
@@ -318,7 +338,7 @@ export default function AudioPlayer() {
                 alt="Imagen de la canción"
                 className="w-16 h-16 mr-8 shrink-0"
               />
-              <div className="mr-17 w-[136px]">
+              <div className="md:mr-17 w-[136px]">
                 <p className="text-heading5 font-semibold text-neutral-light">
                   {currentTrack && currentTrack.user.username}
                 </p>

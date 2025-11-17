@@ -15,7 +15,7 @@
 }
 
 .btn-lg {
-  @apply text-heading3 font-semibold min-h-16 max-md:min-h-23 max-md:py-7 max-md:px-8 max-md:text-body;
+  @apply text-heading3 font-semibold min-h-16 max-md:min-h-23 max-md:min-w-23 max-md:py-7 max-md:px-8 max-md:text-body;
 }
 
 .btn-md {
@@ -70,7 +70,7 @@
 }
 
 .skip-controls {
-  @apply p-0 active:opacity-100 max-md:rounded-full max-md:p-3;
+  @apply p-0 active:opacity-100 max-md:rounded-full;
 }
 
 /* Slider */

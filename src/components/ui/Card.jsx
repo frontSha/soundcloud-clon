@@ -87,9 +87,9 @@ export default function Card({
             }`}
           >
             <div
-              className={`buttons w-full h-full grid grid-cols-1 grid-rows-[1fr_auto] place-items-center`}
+              className={`buttons w-full h-full grid grid-cols-1`}
             >
-              <div className="play-button">
+              <div className="play-button absolute left-1/2 top-1/2 -translate-1/2">
                 <PlayButton
                   buttonSize={'large'}
                   variant={'primary'}

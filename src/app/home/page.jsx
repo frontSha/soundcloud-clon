@@ -41,7 +41,7 @@ export default function page() {
   ];
 
   return (
-    <div className="relative">
+    <div className="relative pb-60">
       <Header />
       <HeaderMobile />
       <main className="desktop-container md:flex">

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { GrUploadOption } from "react-icons/gr";
-import { HiOutlineBell } from "react-icons/hi";
+import { PiBell } from "react-icons/pi";
 import { RxEnvelopeClosed } from 'react-icons/rx';
 
 export default function HeaderMobile() {
@@ -10,11 +10,11 @@ export default function HeaderMobile() {
       href: '/upload',
     },
     {
-      icon: <RxEnvelopeClosed size={17} strokeWidth={.2} />,
+      icon: <RxEnvelopeClosed size={17} strokeWidth={0.2} />,
       href: '/inbox',
     },
     {
-      icon: <HiOutlineBell size={20} strokeWidth={1.5} />,
+      icon: <PiBell size={19} strokeWidth={1.5} />,
       href: '/notifications',
     },
   ];
@@ -28,7 +28,7 @@ export default function HeaderMobile() {
         <div className="*:ml-12 flex items-center">
           <Link href={'/suscriptions'} className="text-accent hover:text-base-light text-micro font-medium uppercase">Obtener Pro</Link>
           {iconLinks.map((icon, i) => (
-            <Link href={icon.href} className="text-base-light hover:text-neutral-light">{icon.icon}</Link>
+            <Link key={`icon-link_${i + 1}`} href={icon.href} className="text-base-light hover:text-neutral-light">{icon.icon}</Link>
           ))}
         </div>
       </div>
