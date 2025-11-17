@@ -129,5 +129,5 @@
 
 /* containers */
 .desktop-container {
-  @apply md:max-w-[1240px] mx-auto md:max-lg:w-[960px] md:max-xl:w-[1080px];
+  @apply max-w-[1240px] mx-auto md:max-w-[960px] lg:max-w-[1080px] xl:max-w-[1240px];
 }

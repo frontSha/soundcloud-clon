@@ -75,9 +75,9 @@
 
   /* Breakpoints */
   --breakpoint-*: initial;
-  --breakpoint-md: 959px;
-  --breakpoint-lg: 1078px;
-  --breakpoint-xl: 1239px;
+  --breakpoint-md: 960px;
+  --breakpoint-lg: 1080px;
+  --breakpoint-xl: 1240px;
 }
 
 html {

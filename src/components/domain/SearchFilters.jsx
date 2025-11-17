@@ -9,11 +9,11 @@ export default function SearchFilters({ activeId, onChange }) {
 
   return (
     <div>
-      <ul className="search-navigation max-md:flex">
+      <ul className="search-navigation max-md:flex md:mb-12">
         {searchFilters.map((item) => (
           <li
             key={item.id}
-            className={`w-[192px] px-8 py-2 max-md:py-6 max-md:w-[20%] max-md:flex max-md:items-center max-md:justify-center max-md:hover:bg-neutral-medium/40 ${
+            className={`w-[224px] px-8 py-2 max-md:py-6 max-md:w-[20%] max-md:flex max-md:items-center max-md:justify-center max-md:hover:bg-neutral-medium/40 md:mb-2 ${
               activeId === item.id
                 ? 'bg-base-light rounded-sm max-md:bg-transparent max-md:border-b-2 max-md:border-base-light max-md:rounded-none'
                 : 'bg-transparent'

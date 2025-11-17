@@ -11,7 +11,7 @@ export default function CarouselSection({ sectionTitle, collection, sectionId })
         </div>
         <div className="section-content mt-8">
           <Carousel>
-            {collection && collection.map((list, i) => (
+            {collection ? collection.map((list, i) => (
               <div className="slider-panels" key={`list-${i + 1}`}>
                 <Card
                   key={list.id}
@@ -23,7 +23,9 @@ export default function CarouselSection({ sectionTitle, collection, sectionId })
                   playlist={list}
                 />
               </div>
-            ))}
+            )) : (
+              <p className="text-heading4 font-semibold text-neutral-light px-4">No se pueden mostrar las colecciones en este momento.</p>
+            )}
           </Carousel>
         </div>
       </div>
