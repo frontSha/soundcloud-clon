@@ -5,6 +5,7 @@ import { PlayButton, ShuffleButton, SkipNextButton, SkipPrevButton, VolumeContro
 import { fetchData, getToken } from '@/utils/api';
 import { PlayerTracksContext } from '@/context/PlayerTracksContext';
 import Hls from 'hls.js';
+import { ProgressCircle } from './ProgressCircle';
 
 export default function AudioPlayer() {
   const {tracks} = useContext(PlayerTracksContext);
@@ -277,18 +278,30 @@ export default function AudioPlayer() {
         <div className="elements flex items-center h-full max-md:justify-between">
           <div className="play-controls *:mr-4 md:*:mr-8 flex items-center h-full">
             <SkipPrevButton buttonSize={'large'} onClick={goToPrevTrack} />
-            <PlayButton
-              buttonSize={'large'}
-              variant={'primary'}
-              onClick={togglePlay}
-              played={isPlaying}
-            />
+            <div className='max-md:hidden'>
+              <PlayButton
+                buttonSize={'large'}
+                variant={'primary'}
+                onClick={togglePlay}
+                played={isPlaying}
+              />
+            </div>
+            <ProgressCircle
+              progress={trackDuration ? currentTime / trackDuration : 0}
+            >
+              <PlayButton
+                buttonSize={'large'}
+                variant={'primary'}
+                onClick={togglePlay}
+                played={isPlaying}
+              />
+            </ProgressCircle>
             <SkipNextButton buttonSize={'large'} onClick={goToNextTrack} />
-            <div className='md:hidden ml-6'>
+            <div className="md:hidden ml-6">
               <ShuffleButton onClick={toggleShuffle} on={isShuffled} />
             </div>
           </div>
-          <div className='max-md:hidden'>
+          <div className="max-md:hidden">
             <ShuffleButton onClick={toggleShuffle} on={isShuffled} />
           </div>
           <div className="timeline flex items-center ml-12 mr-4 w-full h-full max-md:hidden">
