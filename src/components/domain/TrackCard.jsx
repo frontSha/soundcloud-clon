@@ -11,32 +11,31 @@ import { getToken } from "@/utils/api";
 export default function TrackCard({trackName, username, trackImg, releaseDate, tag, streamCount, likeCount, type, track}) {
   const {setTracks} = useContext(PlayerTracksContext);
 
-  const handlePlay = () => {
+  const handlePlay = async () => {
     if (track) {
-      setTracks([track]);
+      if (type === 'playlist') {
+        const tracks = await getTracksFromList();
+        setTracks(tracks);
+      } else {
+        setTracks([track]);
+      }
     }
   };
 
-  const addToQueue = () => {
+  const addToQueue = async () => {
     setTracks((prev) => [...prev, track]);
-  };
 
-  // FIX
-  const handleListPlay = async () => {
+    if (type === 'playlist') {
       const tracks = await getTracksFromList();
-      setTracks(tracks);
+      setTracks(prev => [...prev, tracks]);
     }
-  
-  const addListToQueue = async () => {
-    const tracks = await getTracksFromList();
-    setTracks(prev => [...prev, tracks]);
-  }
+  };
   
   const getTracksFromList = async () => {
     const token = await getToken();
 
     const res = await fetch(
-      `https://api.soundcloud.com/playlists/${encodeURIComponent(playlist.urn)}/tracks`,
+      `https://api.soundcloud.com/playlists/${encodeURIComponent(track.urn)}/tracks`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -58,7 +57,7 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
         <div
           id="artwork"
           className="w-52 h-52 md:w-60 md:h-60 mr-6 md:mr-4 rounded-[3%] overflow-clip bg-linear-135 from-mist to-mauve"
-          onClick={type === 'playlist' ? handleListPlay : handlePlay} //para mobile
+          onClick={handlePlay} //para mobile
         >
           {trackImg && (
             <img
@@ -79,7 +78,7 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
                   iconSize={24}
                   buttonSize={'large'}
                   variant={'primary'}
-                  onClick={type === 'playlist' ? handleListPlay : handlePlay}
+                  onClick={handlePlay}
                 />
               </div>
               <div className="flex flex-col flex-1">
@@ -110,7 +109,7 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
             <div className="hidden md:flex justify-between px-8">
               <Tooltip text="Agregar a la fila">
                 <AddToQueueButton
-                  onClick={type === 'playlist' ? addListToQueue : addToQueue}
+                  onClick={addToQueue}
                 />
               </Tooltip>
               <div className="flex justify-end items-center gap-4">
@@ -150,7 +149,7 @@ export default function TrackCard({trackName, username, trackImg, releaseDate, t
                 buttonSize={'small'}
                 variant={'tertiary'}
                 text={'Agregar a la fila'}
-                onClick={type === 'playlist' ? addListToQueue : addToQueue}
+                onClick={addToQueue}
               />
             </Popover>
           </div>

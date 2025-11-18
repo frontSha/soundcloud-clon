@@ -25,8 +25,6 @@ export default function page() {
     })();
   }, [])
 
-  console.log(trending);
-
   const sections = [
     {
       title: 'Artistas a tener en cuenta',

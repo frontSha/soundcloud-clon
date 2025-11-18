@@ -1,5 +1,6 @@
 'use client'
 
+import Search from "@/components/domain/Search";
 import SignInUpForm from "@/components/domain/SignInUpForm";
 import CarouselSection from "@/components/feature/CarouselSection";
 import BottomNav from "@/components/layout/BottomNav";
@@ -129,11 +130,7 @@ export default function Home() {
         </div>
         <div className="actions mt-24 mb-6 flex gap-8 items-center justify-center">
           <div className="w-[600px] h-18">
-            <Input
-              inputName={'search'}
-              inputType={'search'}
-              placeholder={'Buscar artistas, grupos, pistas y podcasts'}
-            />
+            <Search variant="start" />
           </div>
           <span className="font-medium text-heading3">o</span>
           <Button

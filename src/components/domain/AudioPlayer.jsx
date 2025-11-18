@@ -84,23 +84,21 @@ export default function AudioPlayer() {
           streams.hls_mp3_128_url ||
           streams.http_mp3_128_url;
 
-        // redirección 302 por cambios en la api
-        const streamData = await fetch(`${url}`, {
-          method: 'HEAD',
-          redirect: 'manual',
-          headers: {
-            Authorization: `OAuth ${token}`,
-            Accept: '*/*',
-          },
-        });
+        // redirección 302 desde backend por cambios en la api
+        const getProxiedUrl = async (url, token) => {
+          const resp = await fetch('/api/soundcloud-proxy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url, token }),
+          });
+          const data = await resp.json();
+          if (!resp.ok) throw new Error(data.error || 'Proxy error');
+          return data.url;
+        };
 
-        const streamUrl = streamData.headers.get('Location');
+        const urlHls = await getProxiedUrl(url, token);
+        setStream(urlHls);
 
-        if (!streamUrl) {
-          throw new Error('No se recibió Location en el HEAD redirect');
-        }
-
-        setStream(streamUrl);
       } catch (error) {
         console.log('Error al obtener stream url:', error);
       }
@@ -211,7 +209,7 @@ export default function AudioPlayer() {
 
   useEffect(() => {
     if (!music) return;
-
+    
     const updateTrackProgress = () => setCurrentTime(music.currentTime);
 
     music.addEventListener('timeupdate', updateTrackProgress);
@@ -219,7 +217,7 @@ export default function AudioPlayer() {
     return () => {
       music.removeEventListener('timeupdate', updateTrackProgress);
     }
-  }, [])
+  }, [music])
 
   useEffect(() => {
     if (music) {
@@ -230,7 +228,6 @@ export default function AudioPlayer() {
 
   const toggleMute = () => {
     if (!isMuted) {
-      // se guarda el volumen actual
       setPrevVolume(volume);
       setVolume(0);
     } else {
