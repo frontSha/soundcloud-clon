@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SoundCloud Clon
 
-## Getting Started
+Clon funcional de SoundCloud construido con **Next.js**, **TailwindCSS**, **Supabase**, y la **API oficial de SoundCloud**. Permite búsqueda de canciones y playlists, y la reproducción de estos. 
 
-First, run the development server:
+**URL del sitio:** [soundcloud-clon.vercel.app](https://soundcloud-clon.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tecnologías utilizadas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Frontend**
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Next.js**
+- **React**
+- **TailwindCSS**
+- **React Icons**
+- **HLS.js** (streaming de audio HLS)
+- **Context API** para manejo global de pistas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### **Backend / Infraestructura**
 
-## Learn More
+- **Supabase** (auth, base de datos y almacenamiento)
+- **API oficial de SoundCloud**
+- **Vercel** para despliegue
 
-To learn more about Next.js, take a look at the following resources:
+## Características principales
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### **Reproductor de audio estilo SoundCloud**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Persistente en toda la aplicación (ubicado en `layout.js`)
+- Soporte HLS (m3u8)
+- Controles completos: play/pause, skip, shuffle, volumen, mute
+- Progreso de la pista en tiempo real
+- Cambio de canción al finalizar automáticamente
+- Manejo de _queue_ con shuffle dinámico
 
-## Deploy on Vercel
+### **Búsqueda global con filtros**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Consumo de la API oficial de SoundCloud
+- Búsqueda por filtros:
+    - pistas
+    - playlists
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### **Autenticación**
+
+- Login / registro con Supabase
+    
+
+### **Diseño completamente responsive**
+
+- Barra de navegación inferior en móvil
+- Sidebar en escritorio
+- Player adaptado a mobile con UI compacta
+
+---
+
+## API SoundCloud
+
+El proyecto consume endpoints como:
+`/tracks?q=... /playlists?q=... /tracks/{urn}/streams`
+
+Incluye:
+- token automático
+- manejo de redirecciones 302
+- soporte para HLS
+
+## Reproductor global
+
+Implementado en:
+`/components/domain/AudioPlayer.jsx`
+
+Features:
+- reactivo
+- global
+- usa `useRef` para el `<audio>`
+- soporta HLS usando Hls.js
+- conectado al contexto global:`PlayerTracksContext`
+
+## Pendientes / Mejoras futuras
+
+- Búsqueda por usuario
+- Guardar favoritos en Supabase
+- Historial de reproducción
+- Agregar página de perfil y de artistas
