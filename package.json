@@ -12,9 +12,9 @@
     "@supabase/supabase-js": "^2.80.0",
     "hls.js": "^1.6.14",
     "jsonwebtoken": "^9.0.2",
-    "next": "15.5.5",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "next": "^15.5.7",
+    "react": "^19.1.2",
+    "react-dom": "^19.1.2",
     "react-icons": "^5.5.0"
   },
   "devDependencies": {
